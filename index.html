@@ -5,11 +5,12 @@
     <script src='/socket.io/socket.io.js'></script>
 </head>
 <body>
-<label for="name">Name:</label>
-<input type="text" id="name" placeholder="Your name">
-<label for="message">Message:</label>
-<input type="text" id="message" placeholder="Your message">
-<input type="button" value="Send" onclick="send()">
+<div>
+    <label>Name</label>
+    <input id="name" name="a" type="text"/><br>
+    <label>Comment</label>
+    <input id="message" name="b" type="text"/><br>
+</div>
 <ul id='messages'></ul>
 <script>
     let ident;
@@ -36,7 +37,17 @@
         return false;
     }
 
-    $(document).ready(function () {
+    $(document).ready(function(){
+        $("#name").keydown( function( event ) {
+            if ( event.which === 13 ) {
+                send();
+            }
+        });
+        $("#message").keydown( function( event ) {
+            if ( event.which === 13 ) {
+                send();
+            }
+        });
 
     });
 
