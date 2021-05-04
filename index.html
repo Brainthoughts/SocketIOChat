@@ -1,0 +1,45 @@
+<!doctype html>
+<html>
+<head>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src='/socket.io/socket.io.js'></script>
+</head>
+<body>
+<label for="name">Name:</label>
+<input type="text" id="name" placeholder="Your name">
+<label for="message">Message:</label>
+<input type="text" id="message" placeholder="Your message">
+<input type="button" value="Send" onclick="send()">
+<ul id='messages'></ul>
+<script>
+    let ident;
+
+    let socket = io();
+    //Get message from server.
+    socket.on('welcome', function (data) {
+        ident = data.id;
+        for (let message of data.messages) {
+            $("#messages").append(`<li> ${message.name}: ${message.message} </li>`);
+        }
+        console.log(ident);
+    });
+
+    //Get message from server.
+    socket.on('update', (data) => {
+        $("#messages").append(`<li> ${data.name}: ${data.message} </li>`);
+    });
+
+    function send() {
+//Send message to server.
+        socket.emit('update', {'name': $("#name").val(), 'message': $('#message').val()});
+        $('#message').val("")
+        return false;
+    }
+
+    $(document).ready(function () {
+
+    });
+
+</script>
+</body>
+</html>
